@@ -14,13 +14,14 @@
         .product-card ul li { margin-bottom: 5px; }
         .product-card button { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
         .product-card button:hover { background-color: #45a049; }
+        .selection-message { color: white; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="product-card">
             <h2>ATG II<br>Brenngerät</h2>
-            <img src=https://github.com/PacoElPerro/Konfigurator/blob/main/IM_product_atg-2_persp_transparent.png?raw=true alt="ATG II">
+            <img src="https://github.com/PacoElPerro/Konfigurator/blob/main/IM_product_atg-2_persp_transparent.png?raw=true" alt="ATG II">
             <ul>
                 <li>Leistung: 2 kW</li>
                 <li>Spannung: 10 kV</li>
@@ -31,7 +32,7 @@
         </div>
         <div class="product-card">
             <h2>ATG 6000<br>Brenngerät</h2>
-            <img src=https://github.com/PacoElPerro/Konfigurator/blob/main/IM_product_atg-6000_persp_transparent.png?raw=true alt="ATG 6000">
+            <img src="https://github.com/PacoElPerro/Konfigurator/blob/main/IM_product_atg-6000_persp_transparent.png?raw=true" alt="ATG 6000">
             <ul>
                 <li>Leistung: 6 kW</li>
                 <li>Spannung: 15 kV</li>
@@ -41,10 +42,21 @@
             <button onclick="selectProduct('ATG 6000')">Auswählen</button>
         </div>
     </div>
+    <div class="selection-message" id="selection-message"></div>
     <script>
         function selectProduct(product) {
-            alert(product + ' wurde ausgewählt!');
-            // Hier können Sie weitere Schritte unternehmen, wie das Speichern der Auswahl oder das Weiterleiten zu einer neuen Seite
+            // Auswahl im localStorage speichern
+            localStorage.setItem('selectedProduct', product);
+            // Nachricht anzeigen
+            document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
+        }
+
+        // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
+        window.onload = function() {
+            var savedProduct = localStorage.getItem('selectedProduct');
+            if (savedProduct) {
+                document.getElementById('selection-message').innerText = savedProduct + ' war bereits ausgewählt.';
+            }
         }
     </script>
 </body>
