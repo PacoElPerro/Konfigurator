@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            color: #333;
+        }
+        .config-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .config-item img {
+            max-width: 100%;
+            height: auto;
+        }
+        .weiter-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .weiter-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="config-item">
+        <h2>ATG II</h2>
+        <p>Brenngerät</p>
+        <img src="URL_OF_ATG_II_IMAGE" alt="ATG II Brenngerät">
+        <p>Leistung: 2 kW<br>Spannung: 10 kV<br>Gewicht: 20 kg<br>Aufpreis: 20.000 €</p>
+        <button onclick="selectItem('ATG II', '2 kW', '10 kV', '20 kg', '20.000 €')">Auswählen</button>
+    </div>
+
+    <div class="config-item">
+        <h2>ATG 6000</h2>
+        <p>Brenngerät</p>
+        <img src="URL_OF_ATG_6000_IMAGE" alt="ATG 6000 Brenngerät">
+        <p>Leistung: 6 kW<br>Spannung: 15 kV<br>Gewicht: 100 kg<br>Aufpreis: 30.000 €</p>
+        <button onclick="selectItem('ATG 6000', '6 kW', '15 kV', '100 kg', '30.000 €')">Auswählen</button>
+    </div>
+
+    <button class="weiter-button" onclick="goToSummary()">Weiter</button>
+
+    <script>
+        // Store selected items in an array
+        const selectedItems = [];
+
+        function selectItem(name, power, voltage, weight, price) {
+            // Add selected item to the array
+            selectedItems.push({ name, power, voltage, weight, price });
+            alert(name + ' wurde ausgewählt.');
+        }
+
+        function goToSummary() {
+            // Store the selected items in localStorage
+            localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+            // Redirect to summary page
+            window.location.href = 'summary.html';
+        }
+    </script>
+
+</body>
+</html>
