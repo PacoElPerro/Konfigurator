@@ -14,8 +14,8 @@
         .product-card ul li { margin-bottom: 5px; }
         .product-card button { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
         .product-card button:hover { background-color: #45a049; }
-        .selection-message { color: white; text-align: center; margin-top: 20px; padding: 10px; }
-        .green-border { border: 2px solid #4CAF50; border-radius: 5px; background-color: #fff; color: #333; }
+        .selection-message { color: white; text-align: center; margin-top: 20px; }
+        .button-style { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -43,7 +43,7 @@
             <button onclick="selectProduct('ATG 6000')">Auswählen</button>
         </div>
     </div>
-    <div class="selection-message green-border" id="selection-message"></div>
+    <div class="selection-message button-style" id="selection-message"></div>
     <script>
         function selectProduct(product) {
             // Auswahl im localStorage speichern
