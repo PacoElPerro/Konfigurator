@@ -65,15 +65,21 @@
             border: 1px solid #ccc; 
             box-sizing: border-box; 
         }
-        .selection-message { 
-            background-color: #4CAF50; 
-            color: white; 
-            padding: 10px; 
-            border-radius: 5px; 
-            margin-top: 20px; 
-            text-align: center; 
-            width: 60%; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        .selection-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    display: inline-block; /* Macht die Breite vom Text abhängig */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 10px; /* Abstand zum unteren Rand der Seite */
+    left: 50%;
+    transform: translateX(-50%); /* Zentriert das Element horizontal */
+}
+
         }
     </style>
 </head>
