@@ -14,6 +14,7 @@
         .product-card ul li { margin-bottom: 5px; }
         .product-card button { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px; }
         .product-card button:hover { background-color: #45a049; }
+        .product-card textarea { width: 100%; height: 80px; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
         .selection-message { text-align: center; margin-top: 20px; }
         .button-style { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; display: inline-block; }
     </style>
@@ -31,6 +32,7 @@
             </ul>
             <button onclick="selectProduct('ATG II')">Auswählen</button>
             <button onclick="addOption('ATG II')">Option</button>
+            <textarea id="comment-ATG-II" placeholder="Hier Kommentare eingeben..."></textarea>
         </div>
         <div class="product-card">
             <h2>ATG 6000<br>Brenngerät</h2>
@@ -43,6 +45,7 @@
             </ul>
             <button onclick="selectProduct('ATG 6000')">Auswählen</button>
             <button onclick="addOption('ATG 6000')">Option</button>
+            <textarea id="comment-ATG-6000" placeholder="Hier Kommentare eingeben..."></textarea>
         </div>
     </div>
     <div class="selection-message button-style" id="selection-message"></div>
@@ -52,6 +55,7 @@
             localStorage.setItem('selectedProduct', product);
             // Nachricht anzeigen
             document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
+            saveComment(product);
         }
 
         function addOption(product) {
@@ -63,9 +67,17 @@
                 localStorage.setItem('selectedOptions', JSON.stringify(options));
                 // Nachricht anzeigen
                 document.getElementById('selection-message').innerText = product + ' wurde als Option hinzugefügt!';
+                saveComment(product);
             } else {
                 document.getElementById('selection-message').innerText = product + ' ist bereits als Option hinzugefügt!';
             }
+        }
+
+        function saveComment(product) {
+            // Kommentar speichern
+            let commentFieldId = 'comment-' + product.replace(' ', '-');
+            let comment = document.getElementById(commentFieldId).value;
+            localStorage.setItem('comment_' + product, comment);
         }
 
         // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
@@ -74,9 +86,20 @@
             var savedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
             if (savedProduct) {
                 document.getElementById('selection-message').innerText = savedProduct + ' war bereits ausgewählt.';
+                loadComment(savedProduct);
             }
             if (savedOptions.length > 0) {
                 document.getElementById('selection-message').innerText += ' Optionen: ' + savedOptions.join(', ') + ' wurden bereits hinzugefügt.';
+                savedOptions.forEach(loadComment);
+            }
+        }
+
+        function loadComment(product) {
+            // Kommentar laden und anzeigen
+            let commentFieldId = 'comment-' + product.replace(' ', '-');
+            let comment = localStorage.getItem('comment_' + product);
+            if (comment) {
+                document.getElementById(commentFieldId).value = comment;
             }
         }
     </script>
