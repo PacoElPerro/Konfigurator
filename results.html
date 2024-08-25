@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ausgewählte Produkte</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin: 0; 
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #333;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ausgewählte Produkte und Optionen</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Auswahl</th>
+                <th>Option</th>
+                <th>Kommentar</th>
+            </tr>
+        </thead>
+        <tbody id="product-table-body">
+            <!-- Inhalte werden hier durch JavaScript eingefügt -->
+        </tbody>
+    </table>
+
+    <!-- Button zum Zurücksetzen und Neustarten -->
+    <button onclick="resetData()">Daten löschen und neu starten</button>
+
+    <script>
+        // Daten aus localStorage abrufen
+        const selectedProduct = localStorage.getItem('selectedProduct');
+        const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+        const products = [
+            { name: 'ATG II', selected: false, option: false, comment: '' },
+            { name: 'ATG 6000', selected: false, option: false, comment: '' }
+        ];
+
+        // Produkte aktualisieren basierend auf gespeicherten Daten
+        if (selectedProduct) {
+            const product = products.find(p => p.name === selectedProduct);
+            if (product) {
+                product.selected = true;
+                product.comment = localStorage.getItem('comment_' + selectedProduct) || '';
+            }
+        }
+
+        selectedOptions.forEach(option => {
+            const product = products.find(p => p.name === option);
+            if (product) {
+                product.option = true;
+                // Falls es schon einen Kommentar gibt, sollte er nicht überschrieben werden
+                if (!product.comment) {
+                    product.comment = localStorage.getItem('comment_' + option) || '';
+                }
+            }
+        });
+
+        // Tabelle befüllen
+        const tableBody = document.getElementById('product-table-body');
+        products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.selected ? 'x' : ''}</td>
+                <td>${product.option ? 'x' : ''}</td>
+                <td>${product.comment}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Funktion zum Löschen der Daten und Neuladen der Seite
+        function resetData() {
+            localStorage.clear(); // Alle Daten aus dem localStorage löschen
+            window.location.href = 'index.html'; // Zurück zur Startseite
+        }
+    </script>
+</body>
+</html>
