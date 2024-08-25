@@ -66,20 +66,18 @@
             box-sizing: border-box; 
         }
         .selection-message {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 20px;
-    text-align: center;
-    display: inline-block; /* Macht die Breite vom Text abhängig */
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    position: fixed;
-    bottom: 10px; /* Abstand zum unteren Rand der Seite */
-    left: 50%;
-    transform: translateX(-50%); /* Zentriert das Element horizontal */
-}
-
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: inline-block; /* Macht die Breite vom Text abhängig */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            bottom: 10px; /* Abstand zum unteren Rand der Seite */
+            left: 50%;
+            transform: translateX(-50%); /* Zentriert das Element horizontal */
         }
     </style>
 </head>
@@ -113,19 +111,26 @@
         </div>
     </div>
     <div class="selection-message" id="selection-message"></div>
+    <button onclick="goToResultsPage()">Weiter</button>
+
     <script>
         function selectProduct(product) {
             // Auswahl im localStorage speichern
-            localStorage.setItem('selectedProduct', product);
-            // Nachricht anzeigen
-            document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
-            saveComment(product);
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            if (!selectedProducts.includes(product)) {
+                selectedProducts.push(product);
+                localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+                // Nachricht anzeigen
+                document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
+                saveComment(product);
+            } else {
+                document.getElementById('selection-message').innerText = product + ' ist bereits ausgewählt!';
+            }
         }
 
         function addOption(product) {
             // Optionen im localStorage speichern
-            let options = localStorage.getItem('selectedOptions');
-            options = options ? JSON.parse(options) : [];
+            let options = JSON.parse(localStorage.getItem('selectedOptions')) || [];
             if (!options.includes(product)) {
                 options.push(product);
                 localStorage.setItem('selectedOptions', JSON.stringify(options));
@@ -146,11 +151,11 @@
 
         // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
         window.onload = function() {
-            var savedProduct = localStorage.getItem('selectedProduct');
+            var savedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
             var savedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
-            if (savedProduct) {
-                document.getElementById('selection-message').innerText = savedProduct + ' war bereits ausgewählt.';
-                loadComment(savedProduct);
+            if (savedProducts.length > 0) {
+                document.getElementById('selection-message').innerText = 'Produkte: ' + savedProducts.join(', ') + ' waren bereits ausgewählt.';
+                savedProducts.forEach(loadComment);
             }
             if (savedOptions.length > 0) {
                 document.getElementById('selection-message').innerText += ' Optionen: ' + savedOptions.join(', ') + ' wurden bereits hinzugefügt.';
@@ -165,6 +170,10 @@
             if (comment) {
                 document.getElementById(commentFieldId).value = comment;
             }
+        }
+
+        function goToResultsPage() {
+            window.location.href = 'results.html';
         }
     </script>
 </body>
