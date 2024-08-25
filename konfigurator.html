@@ -72,12 +72,12 @@
             border-radius: 5px;
             margin-top: 20px;
             text-align: center;
-            display: inline-block; /* Macht die Breite vom Text abhängig */
+            display: inline-block; 
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             position: fixed;
-            bottom: 10px; /* Abstand zum unteren Rand der Seite */
+            bottom: 10px;
             left: 50%;
-            transform: translateX(-50%); /* Zentriert das Element horizontal */
+            transform: translateX(-50%);
         }
     </style>
 </head>
@@ -111,11 +111,9 @@
         </div>
     </div>
     <div class="selection-message" id="selection-message"></div>
-    <button onclick="goToResultsPage()">Weiter</button>
-
     <script>
         function selectProduct(product) {
-            // Auswahl im localStorage speichern
+            // Ausgewählte Produkte aus dem localStorage holen
             let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
             if (!selectedProducts.includes(product)) {
                 selectedProducts.push(product);
@@ -124,7 +122,7 @@
                 document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
                 saveComment(product);
             } else {
-                document.getElementById('selection-message').innerText = product + ' ist bereits ausgewählt!';
+                document.getElementById('selection-message').innerText = product + ' wurde bereits ausgewählt!';
             }
         }
 
@@ -151,15 +149,21 @@
 
         // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
         window.onload = function() {
-            var savedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-            var savedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
-            if (savedProducts.length > 0) {
-                document.getElementById('selection-message').innerText = 'Produkte: ' + savedProducts.join(', ') + ' waren bereits ausgewählt.';
-                savedProducts.forEach(loadComment);
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            let selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+            let message = '';
+
+            if (selectedProducts.length > 0) {
+                message += 'Ausgewählte Produkte: ' + selectedProducts.join(', ') + '. ';
+                selectedProducts.forEach(loadComment);
             }
-            if (savedOptions.length > 0) {
-                document.getElementById('selection-message').innerText += ' Optionen: ' + savedOptions.join(', ') + ' wurden bereits hinzugefügt.';
-                savedOptions.forEach(loadComment);
+            if (selectedOptions.length > 0) {
+                message += 'Optionen: ' + selectedOptions.join(', ') + ' wurden bereits hinzugefügt.';
+                selectedOptions.forEach(loadComment);
+            }
+
+            if (message) {
+                document.getElementById('selection-message').innerText = message;
             }
         }
 
@@ -170,10 +174,6 @@
             if (comment) {
                 document.getElementById(commentFieldId).value = comment;
             }
-        }
-
-        function goToResultsPage() {
-            window.location.href = 'results.html';
         }
     </script>
 </body>
