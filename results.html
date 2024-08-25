@@ -35,4 +35,81 @@
             margin-top: 20px;
             padding: 10px 20px;
             background-color: #d9534f;
-           
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ausgewählte Produkte und Optionen</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Auswahl</th>
+                <th>Option</th>
+                <th>Kommentar</th>
+            </tr>
+        </thead>
+        <tbody id="product-table-body">
+            <!-- Inhalte werden hier durch JavaScript eingefügt -->
+        </tbody>
+    </table>
+
+    <!-- Button zum Zurücksetzen und Neustarten -->
+    <button onclick="resetData()">Daten löschen und neu starten</button>
+
+    <script>
+        // Daten aus localStorage abrufen
+        const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+        const products = [
+            { name: 'ATG II', selected: false, option: false, comment: '' },
+            { name: 'ATG 6000', selected: false, option: false, comment: '' }
+        ];
+
+        // Produkte aktualisieren basierend auf gespeicherten Daten
+        selectedProducts.forEach(productName => {
+            const product = products.find(p => p.name === productName);
+            if (product) {
+                product.selected = true;
+                product.comment = localStorage.getItem('comment_' + productName) || '';
+            }
+        });
+
+        selectedOptions.forEach(optionName => {
+            const product = products.find(p => p.name === optionName);
+            if (product) {
+                product.option = true;
+                if (!product.comment) {
+                    product.comment = localStorage.getItem('comment_' + optionName) || '';
+                }
+            }
+        });
+
+        // Tabelle befüllen
+        const tableBody = document.getElementById('product-table-body');
+        products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.selected ? 'x' : ''}</td>
+                <td>${product.option ? 'x' : ''}</td>
+                <td>${product.comment}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Funktion zum Löschen der Daten und Neuladen der Seite
+        function resetData() {
+            localStorage.clear(); // Alle Daten aus dem localStorage löschen
+            window.location.href = 'index.html'; // Zurück zur Startseite
+        }
+    </script>
+</body>
+</html>
