@@ -55,6 +55,10 @@
             <textarea id="comment-ATG-6000" placeholder="Hier Kommentare eingeben..."></textarea>
         </div>
     </div>
+
+<!-- Weiter Button -->
+    <button class="weiter-button" onclick="nextStep()">Weiter</button>
+    
     <div class="selection-message" id="selection-message"></div>
     <script>
         function selectProduct(product) {
@@ -90,6 +94,13 @@
             let commentFieldId = 'comment-' + product.replace(' ', '-');
             let comment = document.getElementById(commentFieldId).value;
             localStorage.setItem('comment_' + product, comment);
+        }
+
+        function nextStep() {
+            // Funktionalität für den "Weiter" Button
+            alert("Weiter zur nächsten Seite!");
+            // Hier könnten Sie den Benutzer auf eine andere Seite weiterleiten, z.B.
+            // window.location.href = 'nextPage.html';
         }
 
         // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
