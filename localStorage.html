@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ausgewählte Produkte</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin: 0; 
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #333;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ausgewählte Produkte und Optionen</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Auswahl</th>
+                <th>Option</th>
+                <th>Kommentar</th>
+            </tr>
+        </thead>
+        <tbody id="product-table-body">
+            <!-- Inhalte werden hier durch JavaScript eingefügt -->
+        </tbody>
+    </table>
+    <script>
+        // Daten aus localStorage abrufen
+        const selectedProduct = localStorage.getItem('selectedProduct');
+        const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+        const products = [
+            { name: 'ATG II', selected: false, option: false, comment: '' },
+            { name: 'ATG 6000', selected: false, option: false, comment: '' }
+        ];
+
+        // Produkte aktualisieren basierend auf gespeicherten Daten
+        if (selectedProduct) {
+            const product = products.find(p => p.name === selectedProduct);
+            if (product) {
+                product.selected = true;
+                product.comment = localStorage.getItem('comment_' + selectedProduct) || '';
+            }
+        }
+
+        selectedOptions.forEach(option => {
+            const product = products.find(p => p.name === option);
+            if (product) {
+                product.option = true;
+                product.comment = localStorage.getItem('comment_' + option) || '';
+            }
+        });
+
+        // Tabelle befüllen
+        const tableBody = document.getElementById('product-table-body');
+        products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.selected ? 'x' : ''}</td>
+                <td>${product.option ? 'x' : ''}</td>
+                <td>${product.comment}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>
