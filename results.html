@@ -48,10 +48,27 @@
         // Daten aus localStorage abrufen
         const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
-        const products = [
-            { name: 'ATG II', selected: false, option: false, comment: '' },
-            { name: 'ATG 6000', selected: false, option: false, comment: '' }
-        ];
+        let results = '';
+
+if (selectedProducts.length > 0) {
+    results += '<h2>Ausgewählte Produkte:</h2><ul>';
+    selectedProducts.forEach(product => {
+        results += '<li>' + product + ' - Kommentar: ' + (localStorage.getItem('comment_' + product) || 'Kein Kommentar') + '</li>';
+    });
+    results += '</ul>';
+} else {
+    results += '<p>Keine Produkte ausgewählt.</p>';
+}
+
+if (selectedOptions.length > 0) {
+    results += '<h2>Ausgewählte Optionen:</h2><ul>';
+    selectedOptions.forEach(option => {
+        results += '<li>' + option + ' - Kommentar: ' + (localStorage.getItem('comment_' + option) || 'Kein Kommentar') + '</li>';
+    });
+    results += '</ul>';
+} else {
+    results += '<p>Keine Optionen ausgewählt.</p>';
+}
 
         // Produkte aktualisieren basierend auf gespeicherten Daten
         selectedProducts.forEach(productName => {
