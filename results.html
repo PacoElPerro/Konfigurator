@@ -43,16 +43,15 @@
     <button id="back-button" onclick="goBack()">Zurück</button>
 
     <script>
-        // Dummy-Produkte für die Demo (ersetzt durch tatsächliche Datenstruktur)
-        const products = [
-            { name: 'Produkt A', selected: false, option: false, comment: '' },
-            { name: 'Produkt B', selected: false, option: false, comment: '' },
-            { name: 'Produkt C', selected: false, option: false, comment: '' }
-        ];
-
         // Daten aus localStorage abrufen
         const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+        const products = [
+            { name: 'ATG ll', selected: false, option: false, comment: '' },
+            { name: 'ATG 6000', selected: false, option: false, comment: '' },
+            { name: 'ATG 8000', selected: false, option: false, comment: '' },
+            { name: 'ATG 9000', selected: false, option: false, comment: '' }
+        ];
 
         // Produkte aktualisieren basierend auf gespeicherten Daten
         selectedProducts.forEach(productName => {
