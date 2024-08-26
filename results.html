@@ -14,6 +14,8 @@
         button:hover { background-color: #c9302c; }
         #download-button { background-color: #5cb85c; }
         #download-button:hover { background-color: #007bff; }
+        #back-button { background-color: #0275d8; }
+        #back-button:hover { background-color: #025aa5; }
     </style>
     
     <!-- Einbinden von SheetJS über CDN -->
@@ -40,6 +42,7 @@
     <!-- Buttons zum Zurücksetzen und Herunterladen -->
     <button onclick="resetData()">Daten löschen und neu starten</button>
     <button id="download-button" onclick="downloadExcel()">Download</button>
+    <button id="back-button" onclick="goBack()">Zurück</button>
 
     <script>
         // Daten aus localStorage abrufen
@@ -94,6 +97,10 @@
             const table = document.getElementById('product-table');
             const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
             XLSX.writeFile(wb, "produkte_auswahl.xlsx");
+        }
+        // Funktion zum Zurückkehren zur Konfigurationsseite
+        function goBack() {
+            window.location.href = 'konfigurator.html'; // Navigation zur Seite konfigurator.html
         }
     </script>
 </body>
