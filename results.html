@@ -102,6 +102,9 @@ if (selectedOptions.length > 0) {
             tableBody.appendChild(row);
         });
 
+        // Ergebnisse anzeigen
+document.getElementById('results-container').innerHTML = results;
+
         // Funktion zum Löschen der Daten und Neuladen der Seite
         function resetData() {
             localStorage.clear(); // Alle Daten aus dem localStorage löschen
