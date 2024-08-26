@@ -20,7 +20,6 @@
     
     <!-- Einbinden von SheetJS über CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
 </head>
 <body>
     <h1>Ausgewählte Produkte und Optionen</h1>
@@ -35,8 +34,7 @@
         </thead>
         <tbody id="product-table-body">
             <!-- Inhalte werden hier durch JavaScript eingefügt -->
-        <tbody id="product-table-body">
-            </tbody>
+        </tbody>
     </table>
 
     <!-- Buttons zum Zurücksetzen und Herunterladen -->
@@ -45,30 +43,16 @@
     <button id="back-button" onclick="goBack()">Zurück</button>
 
     <script>
+        // Dummy-Produkte für die Demo (ersetzt durch tatsächliche Datenstruktur)
+        const products = [
+            { name: 'Produkt A', selected: false, option: false, comment: '' },
+            { name: 'Produkt B', selected: false, option: false, comment: '' },
+            { name: 'Produkt C', selected: false, option: false, comment: '' }
+        ];
+
         // Daten aus localStorage abrufen
         const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
-        let results = '';
-
-if (selectedProducts.length > 0) {
-    results += '<h2>Ausgewählte Produkte:</h2><ul>';
-    selectedProducts.forEach(product => {
-        results += '<li>' + product + ' - Kommentar: ' + (localStorage.getItem('comment_' + product) || 'Kein Kommentar') + '</li>';
-    });
-    results += '</ul>';
-} else {
-    results += '<p>Keine Produkte ausgewählt.</p>';
-}
-
-if (selectedOptions.length > 0) {
-    results += '<h2>Ausgewählte Optionen:</h2><ul>';
-    selectedOptions.forEach(option => {
-        results += '<li>' + option + ' - Kommentar: ' + (localStorage.getItem('comment_' + option) || 'Kein Kommentar') + '</li>';
-    });
-    results += '</ul>';
-} else {
-    results += '<p>Keine Optionen ausgewählt.</p>';
-}
 
         // Produkte aktualisieren basierend auf gespeicherten Daten
         selectedProducts.forEach(productName => {
@@ -102,9 +86,6 @@ if (selectedOptions.length > 0) {
             tableBody.appendChild(row);
         });
 
-        // Ergebnisse anzeigen
-document.getElementById('results-container').innerHTML = results;
-
         // Funktion zum Löschen der Daten und Neuladen der Seite
         function resetData() {
             localStorage.clear(); // Alle Daten aus dem localStorage löschen
@@ -113,11 +94,11 @@ document.getElementById('results-container').innerHTML = results;
 
         // Funktion zum Erstellen und Herunterladen der Excel-Datei
         function downloadExcel() {
-            // Tabelleninhalt in ein 2D-Array umwandeln
             const table = document.getElementById('product-table');
             const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
             XLSX.writeFile(wb, "produkte_auswahl.xlsx");
         }
+
         // Funktion zum Zurückkehren zur Konfigurationsseite
         function goBack() {
             window.location.href = 'konfigurator.html'; // Navigation zur Seite konfigurator.html
