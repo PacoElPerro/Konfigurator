@@ -15,6 +15,10 @@
         download-button { background-color: #5cb85c; }
         download-button:hover { background-color: #4cae4c; }
     </style>
+    
+    <!-- Einbinden von SheetJS über CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 </head>
 <body>
     <h1>Ausgewählte Produkte und Optionen</h1>
@@ -34,7 +38,7 @@
 
     <!-- Buttons zum Zurücksetzen und Herunterladen -->
     <button onclick="resetData()">Daten löschen und neu starten</button>
-    <button id="download-button" onclick="downloadCSV()">Download</button>
+    <button id="download-button" onclick="downloadExcel()">Download</button>
 
     <script>
         // Daten aus localStorage abrufen
@@ -83,19 +87,12 @@
             window.location.href = 'index.html'; // Zurück zur Startseite
         }
 
-        // Funktion zum Erstellen und Herunterladen der CSV-Datei
-        function downloadCSV() {
-            const csvContent = "data:text/csv;charset=utf-8," + products.map(product => {
-                return `${product.name},${product.selected ? 'x' : ''},${product.option ? 'x' : ''},${product.comment}`;
-            }).join("\n");
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "produkte_auswahl.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        // Funktion zum Erstellen und Herunterladen der Excel-Datei
+        function downloadExcel() {
+            // Tabelleninhalt in ein 2D-Array umwandeln
+            const table = document.getElementById('product-table');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+            XLSX.writeFile(wb, "produkte_auswahl.xlsx");
         }
     </script>
 </body>
