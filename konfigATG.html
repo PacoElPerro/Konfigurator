@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messsystem Konfigurator</title>
+    <style>
+        /* Stildefinitionen */
+        body { font-family: Arial, sans-serif; background-color: #1e4d7b; color: #333; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; }
+        .container { display: flex; justify-content: center; margin-top: 50px; }
+        .product-card { background-color: #fff; padding: 20px; margin: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+        .product-card h2 { font-size: 1.2em; color: #333; }
+        .product-card img { width: 100%; border: 2px solid #4CAF50; margin-bottom: 10px; }
+        .product-card ul { list-style: none; padding: 0; }
+        .product-card ul li { margin-bottom: 5px; }
+        .product-card button { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px; }
+        .product-card button:hover { background-color: #45a049; }
+        .product-card textarea { width: 100%; height: 80px; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        .selection-message { background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-top: 20px; text-align: center; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .weiter-button { background-color: #4CAF50; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .weiter-button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Produktkarte ATG II -->
+        <div class="product-card">
+            <h2>ATG II<br>Brenngerät</h2>
+            <img src="https://github.com/PacoElPerro/Konfigurator/blob/main/IM_product_atg-2_persp_transparent.png?raw=true" alt="ATG II">
+            <ul>
+                <li>Leistung: 2 kW</li>
+                <li>Spannung: 10 kV</li>
+                <li>Gewicht: 20 kg</li>
+                <li>Aufpreis: 20.000 €</li>
+            </ul>
+            <button onclick="selectProduct('ATG II')">Auswählen</button>
+            <button onclick="addOption('ATG II')">Option</button>
+            <textarea id="comment-ATG-II" placeholder="Hier Kommentare eingeben..."></textarea>
+        </div>
+        <!-- Produktkarte ATG 6000 -->
+        <div class="product-card">
+            <h2>ATG 6000<br>Brenngerät</h2>
+            <img src="https://github.com/PacoElPerro/Konfigurator/blob/main/IM_product_atg-6000_persp_transparent.png?raw=true" alt="ATG 6000">
+            <ul>
+                <li>Leistung: 6 kW</li>
+                <li>Spannung: 15 kV</li>
+                <li>Gewicht: 100 kg</li>
+                <li>Aufpreis: 30.000 €</li>
+            </ul>
+            <button onclick="selectProduct('ATG 6000')">Auswählen</button>
+            <button onclick="addOption('ATG 6000')">Option</button>
+            <textarea id="comment-ATG-6000" placeholder="Hier Kommentare eingeben..."></textarea>
+        </div>
+    </div>
+
+<!-- Weiter Button -->
+    <button class="weiter-button" onclick="nextStep()">Weiter</button>
+    
+    <div class="selection-message" id="selection-message"></div>
+    <script>
+        function selectProduct(product) {
+            // Ausgewählte Produkte aus dem localStorage holen
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            if (!selectedProducts.includes(product)) {
+                selectedProducts.push(product);
+                localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+                // Nachricht anzeigen
+                document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
+                saveComment(product);
+            } else {
+                document.getElementById('selection-message').innerText = product + ' wurde bereits ausgewählt!';
+            }
+        }
+
+        function addOption(product) {
+            // Optionen im localStorage speichern
+            let options = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+            if (!options.includes(product)) {
+                options.push(product);
+                localStorage.setItem('selectedOptions', JSON.stringify(options));
+                // Nachricht anzeigen
+                document.getElementById('selection-message').innerText = product + ' wurde als Option hinzugefügt!';
+                saveComment(product);
+            } else {
+                document.getElementById('selection-message').innerText = product + ' ist bereits als Option hinzugefügt!';
+            }
+        }
+
+        function saveComment(product) {
+            // Kommentar speichern
+            let commentFieldId = 'comment-' + product.replace(' ', '-');
+            let comment = document.getElementById(commentFieldId).value;
+            localStorage.setItem('comment_' + product, comment);
+        }
+
+        function nextStep() {
+            // Weiter zur nächsten Konfigurationsseite
+            window.location.href = 'konfigurator2.html';
+        }
+
+        // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
+        window.onload = function() {
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            let selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+            let message = '';
+
+            if (selectedProducts.length > 0) {
+                message += 'Ausgewählte Produkte: ' + selectedProducts.join(', ') + '. ';
+                selectedProducts.forEach(loadComment);
+            }
+            if (selectedOptions.length > 0) {
+                message += 'Optionen: ' + selectedOptions.join(', ') + ' wurden bereits hinzugefügt.';
+                selectedOptions.forEach(loadComment);
+            }
+
+            if (message) {
+                document.getElementById('selection-message').innerText = message;
+            }
+        }
+
+        function loadComment(product) {
+            // Kommentar laden und anzeigen
+            let commentFieldId = 'comment-' + product.replace(' ', '-');
+            let comment = localStorage.getItem('comment_' + product);
+            if (comment) {
+                document.getElementById(commentFieldId).value = comment;
+            }
+        }
+
+function nextStep() {
+    // Weiter zur nächsten Seite
+    window.location.href = 'konfigurator2.html';
+}
+        
+    </script>
+</body>
+</html>
