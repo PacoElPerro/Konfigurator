@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messsystem Konfigurator</title>
+    <title>Messsystem Konfigurator - Seite 2</title>
     <style>
         /* Stildefinitionen */
         body { font-family: Arial, sans-serif; background-color: #1e4d7b; color: #333; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; }
@@ -17,8 +17,13 @@
         .product-card button:hover { background-color: #45a049; }
         .product-card textarea { width: 100%; height: 80px; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
         .selection-message { background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-top: 20px; text-align: center; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); }
-        .weiter-button { background-color: #4CAF50; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .weiter-button:hover { background-color: #45a049; }
+        .button-container { margin-top: 20px; display: flex; justify-content: space-between; width: 10%; }
+        button { padding: 10px 20px; background-color: #0275d8; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #025aa5; }
+        #back-button { background-color: #5cb85c; }
+        #back-button:hover { background-color: #45a049; }
+        #next-button { background-color: #5cb85c; }
+        #next-button:hover { background-color: #45a049; }
     </style>
 </head>
 <body>
@@ -53,9 +58,11 @@
         </div>
     </div>
 
-<!-- Weiter Button -->
-    <button class="weiter-button" onclick="nextStep()">Weiter</button>
-    
+     <div class="button-container">
+        <button id="back-button" onclick="goBack()">Zurück</button>
+        <button id="next-button" onclick="goNext()">Weiter</button>
+    </div>
+
     <div class="selection-message" id="selection-message"></div>
     <script>
         function selectProduct(product) {
@@ -93,9 +100,9 @@
             localStorage.setItem('comment_' + product, comment);
         }
 
-        function nextStep() {
-            // Weiter zur nächsten Konfigurationsseite
-            window.location.href = 'konfigurator2.html';
+        // Funktion zum Weitergehen zur nächsten Seite
+        function goNext() {
+            window.location.href = 'konfiguratorPHG.html'; // Navigation zur nächsten Seite
         }
 
         // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
@@ -126,12 +133,14 @@
                 document.getElementById(commentFieldId).value = comment;
             }
         }
-
-function nextStep() {
-    // Weiter zur nächsten Seite
-    window.location.href = 'konfigurator2.html';
-}
-        
+        // Funktion zum Zurückkehren zur vorherigen Seite
+        function goBack() {
+            window.location.href = 'konfiguratorSZ.html'; // Navigation zur vorherigen Seite (z.B. konfigurationsschritt 1)
+        }
     </script>
 </body>
 </html>
+
+
+
+
