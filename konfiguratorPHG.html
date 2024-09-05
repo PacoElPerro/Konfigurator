@@ -93,7 +93,7 @@
 
         function saveComment(product) {
             // Kommentar speichern
-            let commentFieldId = 'comment-' + product.replace(' ', '-');
+            let commentFieldId = 'comment-' + product.replace(/\s+/g, '-');
             let comment = document.getElementById(commentFieldId).value;
             localStorage.setItem('comment_' + product, comment);
         }
@@ -125,7 +125,7 @@
 
         function loadComment(product) {
             // Kommentar laden und anzeigen
-            let commentFieldId = 'comment-' + product.replace(' ', '-');
+            let commentFieldId = 'comment-' + product.replace(/\s+/g, '-');
             let comment = localStorage.getItem('comment_' + product);
             if (comment) {
                 document.getElementById(commentFieldId).value = comment;
