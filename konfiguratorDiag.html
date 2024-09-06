@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messsystem Konfigurator - Seite 2</title>
+    <style>
+        /* Stildefinitionen */
+        body { font-family: Arial, sans-serif; background-color: #1e4d7b; color: #333; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; }
+        .container { display: flex; justify-content: center; margin-top: 50px; }
+        .product-card { background-color: #fff; padding: 20px; margin: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+        .product-card h2 { font-size: 1.2em; color: #333; }
+        .product-card img { width: 100%; border: 2px solid #4CAF50; margin-bottom: 10px; }
+        .product-card ul { list-style: none; padding: 0; }
+        .product-card ul li { margin-bottom: 5px; }
+        .product-card button { background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px; }
+        .product-card button:hover { background-color: #45a049; }
+        .product-card textarea { width: 100%; height: 80px; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        .selection-message { background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-top: 20px; text-align: center; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .button-container { margin-top: 20px; display: flex; justify-content: space-between; width: 10%; }
+        button { padding: 10px 20px; background-color: #0275d8; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #025aa5; }
+        #back-button { background-color: #5cb85c; }
+        #back-button:hover { background-color: #45a049; }
+        #next-button { background-color: #5cb85c; }
+        #next-button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Beispiel Produktkarte TD Modul -->
+        <div class="product-card">
+            <h2>TD Modul<br>Verlustfaktormessung</h2>
+            <img src="https://github.com/PacoElPerro/Konfigurator/blob/main/PHG%20IM_product_titron_front_control-room-2-screens_square.jpg?raw=true" alt="PHG">
+            <ul>
+                <li>Frequenzbereich: 0,01 – 1 Hz</li>
+                <li>VLF-truesinus®: 0 – 57 kVeff</li>
+                <li>VLF-Rechteck: 0 – 80 kV</li>
+            </ul>
+            <button onclick="selectProduct('TD Modul')">Auswählen</button>
+            <button onclick="addOption('TD Modul')">Option</button>
+            <textarea id="comment-PHG" placeholder="Hier Kommentare eingeben..."></textarea>
+        </div>
+        <!-- Beispiel Produktkarte PHG TD inkl PD TaD -->
+        <div class="product-card">
+            <h2>PD TaD<br>Teilentladungsmessung</h2>
+            <img src="https://github.com/PacoElPerro/Konfigurator/blob/main/PHG%20IM_product_titron_front_control-room-2-screens_square.jpg?raw=true" alt="PHG">
+            <ul>
+                <li>zusätzlich:</li>
+                <li>TE-Messung: bis 44 kVeff</li>
+                <li>TD-Messung: bis 57 kVeff</li>
+                </ul>
+            <button onclick="selectProduct('PD TaD')">Auswählen</button>
+            <button onclick="addOption('PD TaD')">Option</button>
+            <textarea id="comment-PHG-TD-inkl-PD-TaD" placeholder="Hier Kommentare eingeben..."></textarea>
+        </div>
+    </div>
+
+     <div class="button-container">
+        <button id="back-button" onclick="goBack()">Zurück</button>
+        <button id="next-button" onclick="goNext()">Weiter</button>
+    </div>
+
+    <div class="selection-message" id="selection-message"></div>
+    <script>
+        function selectProduct(product) {
+            // Ausgewählte Produkte aus dem localStorage holen
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            if (!selectedProducts.includes(product)) {
+                selectedProducts.push(product);
+                localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+                // Nachricht anzeigen
+                document.getElementById('selection-message').innerText = product + ' wurde ausgewählt und gespeichert!';
+                saveComment(product);
+            } else {
+                document.getElementById('selection-message').innerText = product + ' wurde bereits ausgewählt!';
+            }
+        }
+
+        function addOption(product) {
+            // Optionen im localStorage speichern
+            let options = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+            if (!options.includes(product)) {
+                options.push(product);
+                localStorage.setItem('selectedOptions', JSON.stringify(options));
+                // Nachricht anzeigen
+                document.getElementById('selection-message').innerText = product + ' wurde als Option hinzugefügt!';
+                saveComment(product);
+            } else {
+                document.getElementById('selection-message').innerText = product + ' ist bereits als Option hinzugefügt!';
+            }
+        }
+
+        function saveComment(product) {
+            // Kommentar speichern
+            let commentFieldId = 'comment-' + product.replace(/\s+/g, '-');
+            let comment = document.getElementById(commentFieldId).value;
+            localStorage.setItem('comment_' + product, comment);
+        }
+
+        // Funktion zum Weitergehen zur nächsten Seite
+        function goNext() {
+            window.location.href = 'konfiguratorATG.html'; // Navigation zur nächsten Seite
+        }
+
+        // Überprüfen, ob eine Auswahl gespeichert ist und anzeigen
+        window.onload = function() {
+            let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            let selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+            let message = '';
+
+            if (selectedProducts.length > 0) {
+                message += 'Ausgewählte Produkte: ' + selectedProducts.join(', ') + '. ';
+                selectedProducts.forEach(loadComment);
+            }
+            if (selectedOptions.length > 0) {
+                message += 'Optionen: ' + selectedOptions.join(', ') + ' wurden bereits hinzugefügt.';
+                selectedOptions.forEach(loadComment);
+            }
+
+            if (message) {
+                document.getElementById('selection-message').innerText = message;
+            }
+        }
+
+        function loadComment(product) {
+            // Kommentar laden und anzeigen
+            let commentFieldId = 'comment-' + product.replace(/\s+/g, '-');
+            let comment = localStorage.getItem('comment_' + product);
+            if (comment) {
+                document.getElementById(commentFieldId).value = comment;
+            }
+        }
+        // Funktion zum Zurückkehren zur vorherigen Seite
+        function goBack() {
+            window.location.href = 'konfiguratorPHG.html'; // Navigation zur vorherigen Seite (z.B. konfigurationsschritt 1)
+        }
+    </script>
+</body>
+</html>
