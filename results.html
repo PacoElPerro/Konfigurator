@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ausgewählte Produkte</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
+        table { width: 80%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #333; }
+        th, td { padding: 10px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        button { margin-top: 20px; padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #c9302c; }
+        #download-button { background-color: #0275d8; }
+        #download-button:hover { background-color: #025aa5; }
+        #back-button { background-color: #5cb85c; }
+        #back-button:hover { background-color: #45a049; }
+        .info-container { width: 80%; margin-top: 20px; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .info-container h2 { margin-bottom: 10px; }
+        .info-container p { margin: 5px 0; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h1>Ausgewählte Produkte und Optionen</h1>
+    <table id="product-table">
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Auswahl</th>
+                <th>Option</th>
+                <th>Kommentar</th>
+            </tr>
+        </thead>
+        <tbody id="product-table-body">
+            <!-- Inhalte werden hier durch JavaScript eingefügt -->
+        </tbody>
+    </table>
+
+    <div class="info-container" id="additional-info">
+        <h2>Zusätzliche Informationen</h2>
+        <!-- Informationen werden hier durch JavaScript eingefügt -->
+    </div>
+
+    <button onclick="resetData()">Daten löschen und neu starten</button>
+    <button id="download-button" onclick="downloadExcel()">Download</button>
+    <button id="back-button" onclick="goBack()">Zurück</button>
+
+    <script>
+        const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
+        const additionalInfoKeys = [
+            'Abnehmer',
+            'Modell Trägerfahrzeug',
+            'Beschaffung Trägerfahrzeug',
+            'Max Gewicht Trägerfahrzeug',
+            'Radstand Trägerfahrzeug',
+            'Höhe Trägerfahrzeug',
+            'Liefertermin Trägerfahrzeug',
+            'Bemerkungen'
+        ];
+
+        const products = [
+            { name: 'titron C', selected: false, option: false, comment: '' },
+            // Weitere Produkte hier hinzufügen...
+        ];
+
+        selectedProducts.forEach(productName => {
+            const product = products.find(p => p.name === productName);
+            if (product) {
+                product.selected = true;
+                product.comment = localStorage.getItem('comment_' + productName) || '';
+            }
+        });
+
+        selectedOptions.forEach(optionName => {
+            const product = products.find(p => p.name === optionName);
+            if (product) {
+                product.option = true;
+                if (!product.comment) {
+                    product.comment = localStorage.getItem('comment_' + optionName) || '';
+                }
+            }
+        });
+
+        const tableBody = document.getElementById('product-table-body');
+        products.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.selected ? 'x' : ''}</td>
+                <td>${product.option ? 'x' : ''}</td>
+                <td>${product.comment}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        const infoContainer = document.getElementById('additional-info');
+        additionalInfoKeys.forEach(key => {
+            const value = localStorage.getItem(key) || 'Nicht angegeben';
+            const infoRow = document.createElement('p');
+            infoRow.innerHTML = `<strong>${key}:</strong> ${value}`;
+            infoContainer.appendChild(infoRow);
+        });
+
+        function resetData() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        function downloadExcel() {
+            const table = document.getElementById('product-table');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+            XLSX.writeFile(wb, "produkte_auswahl.xlsx");
+        }
+
+        function goBack() {
+            window.location.href = 'konfiguratorZUBEHOR.html';
+        }
+    </script>
+</body>
+</html>
