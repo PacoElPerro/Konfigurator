@@ -63,9 +63,28 @@
 
         const products = [
             { name: 'titron C', selected: false, option: false, comment: '' },
-            // Weitere Produkte hier hinzufügen...
+            { name: 'titron 3p', selected: false, option: false, comment: '' },
+            { name: 'SSG 2100', selected: false, option: false, comment: '' },
+            { name: 'SSG 3000', selected: false, option: false, comment: '' },
+            { name: 'SZ 2', selected: false, option: false, comment: '' },
+            { name: 'SZ 3', selected: false, option: false, comment: '' },
+            { name: 'viola', selected: false, option: false, comment: '' },
+            { name: 'PHG', selected: false, option: false, comment: '' },
+            { name: 'TD Modul', selected: false, option: false, comment: '' },
+            { name: 'TE Modul', selected: false, option: false, comment: '' },
+            { name: 'ATG II', selected: false, option: false, comment: '' },
+            { name: 'ATG 6000', selected: false, option: false, comment: '' },
+            { name: 'Differenzmethoden', selected: false, option: false, comment: '' },
+            { name: 'shirla', selected: false, option: false, comment: '' },
+            { name: 'TG2050', selected: false, option: false, comment: '' },
+            { name: 'TG600', selected: false, option: false, comment: '' },
+            { name: 'protrac', selected: false, option: false, comment: '' },
+            { name: 'CL20', selected: false, option: false, comment: '' },
+            { name: 'Mobile Geräte', selected: false, option: false, comment: '' },
+            { name: 'Absperrmaterial Anschlussadapter', selected: false, option: false, comment: '' }
         ];
 
+        // Aktualisiere Produkte basierend auf localStorage
         selectedProducts.forEach(productName => {
             const product = products.find(p => p.name === productName);
             if (product) {
@@ -84,6 +103,7 @@
             }
         });
 
+        // Tabelle füllen
         const tableBody = document.getElementById('product-table-body');
         products.forEach(product => {
             const row = document.createElement('tr');
@@ -96,6 +116,7 @@
             tableBody.appendChild(row);
         });
 
+        // Zusätzliche Informationen anzeigen
         const infoContainer = document.getElementById('additional-info');
         additionalInfoKeys.forEach(key => {
             const value = localStorage.getItem(key) || 'Nicht angegeben';
