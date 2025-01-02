@@ -38,10 +38,10 @@
         </tbody>
     </table>
 
-    <div class="info-container" id="additional-info">
-        <h2>Zusätzliche Informationen</h2>
-        <!-- Informationen werden hier durch JavaScript eingefügt -->
-    </div>
+    // <div class="info-container" id="additional-info">
+       //  <h2>Zusätzliche Informationen</h2>
+        // <!-- Informationen werden hier durch JavaScript eingefügt -->
+    //  </div>
 
     <button onclick="resetData()">Daten löschen und neu starten</button>
     <button id="download-button" onclick="downloadExcel()">Download</button>
@@ -117,11 +117,11 @@
         });
 
 // Zusätzliche Informationen in die Tabelle einfügen
-// const additionalInfoRow = document.createElement('tr');
-// additionalInfoRow.innerHTML = `
-//    <td colspan="4" style="text-align: center; font-weight: bold; background-color: #e0e0e0;">Zusätzliche Informationen</td>
-//`;
-// tableBody.appendChild(additionalInfoRow);
+const additionalInfoRow = document.createElement('tr');
+additionalInfoRow.innerHTML = `
+   <td colspan="4" style="text-align: center; font-weight: bold; background-color: #e0e0e0;">Zusätzliche Informationen</td>
+`;
+tableBody.appendChild(additionalInfoRow);
 
 additionalInfoKeys.forEach(key => {
     const value = localStorage.getItem(key) || 'Nicht angegeben';
