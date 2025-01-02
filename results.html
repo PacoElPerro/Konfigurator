@@ -116,13 +116,21 @@
             tableBody.appendChild(row);
         });
 
-        // Zusätzliche Informationen anzeigen
-const infoContainer = document.getElementById('additional-info');
+// Zusätzliche Informationen in die Tabelle einfügen
+const additionalInfoRow = document.createElement('tr');
+additionalInfoRow.innerHTML = `
+    <td colspan="4" style="text-align: center; font-weight: bold; background-color: #e0e0e0;">Zusätzliche Informationen</td>
+`;
+tableBody.appendChild(additionalInfoRow);
+
 additionalInfoKeys.forEach(key => {
     const value = localStorage.getItem(key) || 'Nicht angegeben';
-    const infoRow = document.createElement('p');
-    infoRow.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}:</strong> ${value}`;
-    infoContainer.appendChild(infoRow);
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}</td>
+        <td colspan="3">${value}</td>
+    `;
+    tableBody.appendChild(row);
 });
 
         function resetData() {
