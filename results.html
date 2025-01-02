@@ -61,6 +61,15 @@
             'Bemerkungen'
         ];
 
+         // Zusätzliche Informationen dynamisch anzeigen
+        const infoContainer = document.getElementById('additional-info');
+        additionalInfoKeys.forEach(key => {
+            const value = localStorage.getItem(key) || 'Nicht angegeben';
+            const infoRow = document.createElement('p');
+            infoRow.innerHTML = `<strong>${key}:</strong> ${value}`;
+            infoContainer.appendChild(infoRow);
+        });
+
         const products = [
             { name: 'titron C', selected: false, option: false, comment: '' },
             { name: 'titron 3p', selected: false, option: false, comment: '' },
