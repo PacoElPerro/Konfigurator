@@ -30,22 +30,7 @@
 
 
     
-<h1>Trägerfahrzeug-Informationen</h1>
-    <form id="info-form">
-        <label for="abnehmer">Abnehmer:</label>
-        <input type="text" id="abnehmer" name="abnehmer"><br><br>
 
-        <label for="modell">Modell Trägerfahrzeug:</label>
-        <input type="text" id="modell" name="modell"><br><br>
-
-        <label for="gewicht">Max. Gewicht Trägerfahrzeug:</label>
-        <input type="text" id="gewicht" name="gewicht"><br><br>
-
-        <label for="bemerkungen">Bemerkungen:</label>
-        <textarea id="bemerkungen" name="bemerkungen"></textarea><br><br>
-
-        <button type="button" onclick="saveData()">Daten speichern und weiter</button>
-    </form>
 
 
 
@@ -89,19 +74,7 @@
     <script>
 
         
-        function saveData() {
-            // Werte aus dem Formular abrufen
-            const abnehmer = document.getElementById('abnehmer').value;
-            const modell = document.getElementById('modell').value;
-            const gewicht = document.getElementById('gewicht').value;
-            const bemerkungen = document.getElementById('bemerkungen').value;
 
-            // Daten im localStorage speichern
-            localStorage.setItem('Abnehmer', abnehmer);
-            localStorage.setItem('Modell Trägerfahrzeug', modell);
-            localStorage.setItem('Max Gewicht Trägerfahrzeug', gewicht);
-            localStorage.setItem('Bemerkungen', bemerkungen);
-        }
 
 
         
