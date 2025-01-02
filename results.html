@@ -51,15 +51,15 @@
         const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
         const selectedOptions = JSON.parse(localStorage.getItem('selectedOptions')) || [];
         const additionalInfoKeys = [
-            'Abnehmer',
-            'Modell Trägerfahrzeug',
-            'Beschaffung Trägerfahrzeug',
-            'Max Gewicht Trägerfahrzeug',
-            'Radstand Trägerfahrzeug',
-            'Höhe Trägerfahrzeug',
-            'Liefertermin Trägerfahrzeug',
-            'Bemerkungen'
-        ];
+    'abnehmer',
+    'modell',
+    'beschaffung',
+    'gewicht',
+    'radstand',
+    'hoehe',
+    'liefertermin',
+    'bemerkungen'
+];
 
         const products = [
             { name: 'titron C', selected: false, option: false, comment: '' },
@@ -117,13 +117,13 @@
         });
 
         // Zusätzliche Informationen anzeigen
-        const infoContainer = document.getElementById('additional-info');
-        additionalInfoKeys.forEach(key => {
-            const value = localStorage.getItem(key) || 'Nicht angegeben';
-            const infoRow = document.createElement('p');
-            infoRow.innerHTML = `<strong>${key}:</strong> ${value}`;
-            infoContainer.appendChild(infoRow);
-        });
+const infoContainer = document.getElementById('additional-info');
+additionalInfoKeys.forEach(key => {
+    const value = localStorage.getItem(key) || 'Nicht angegeben';
+    const infoRow = document.createElement('p');
+    infoRow.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}:</strong> ${value}`;
+    infoContainer.appendChild(infoRow);
+});
 
         function resetData() {
             localStorage.clear();
